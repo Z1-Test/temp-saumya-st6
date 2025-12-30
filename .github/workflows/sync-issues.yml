@@ -1,0 +1,152 @@
+name:  Sync Docs to Issues
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "docs/epics/**. md"
+      - "docs/features/**.md"
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: sync-docs-to-issues
+  cancel-in-progress: false
+
+jobs: 
+
+  # ------------------------------------------------------------
+  # JOB 1 — Parse Instruction 🤖 Issue (Execution Plan)
+  # ------------------------------------------------------------
+  plan:
+    name: Parse Authoritative Execution Plan
+    runs-on: ubuntu-latest
+    outputs:
+      epic_feature_map: ${{ steps.parse. outputs.map }}
+
+    steps:
+      - uses:  actions/checkout@v4
+
+      - name: Parse Instruction 🤖 issue (execution-plan)
+        id: parse
+        env:
+          GH_TOKEN: ${{ secrets. GITHUB_TOKEN }}
+          OWNER: ${{ github.repository_owner }}
+          REPO: ${{ github.event.repository.name }}
+        run: |
+          set -euo pipefail
+
+          echo "🔍 Locating Instruction issue via GraphQL..."
+
+          QUERY='
+          query($owner: String!, $repo:String!) {
+            repository(owner:  $owner, name: $repo) {
+              issues(first: 100, states:  OPEN, orderBy:{field:CREATED_AT, direction:DESC}) {
+                nodes {
+                  number
+                  body
+                  createdAt
+                  issueType {
+                    name
+                  }
+                }
+              }
+            }
+          }'
+
+          RESPONSE=$(gh api graphql \
+            -f query="$QUERY" \
+            -f owner="$OWNER" \
+            -f repo="$REPO")
+
+          INSTRUCTION=$(echo "$RESPONSE" | jq -r '
+            [. data.repository.issues.nodes[]
+            | select(.issueType.name=="Instruction")]
+            | sort_by(.createdAt) | reverse
+            | .[0]
+            | @base64
+          ')
+
+          if [ -z "$INSTRUCTION" ] || [ "$INSTRUCTION" = "bnVsbA==" ]; then
+            echo "❌ No Instruction 🤖 issue found"
+            exit 1
+          fi
+
+          ISSUE=$(echo "$INSTRUCTION" | base64 --decode)
+          BODY=$(echo "$ISSUE" | jq -r '.body')
+
+          echo "✅ Latest Instruction issue found (issue #$(echo "$ISSUE" | jq -r '. number'))"
+
+          echo "📦 Extracting execution-plan block..."
+
+          # --- FIXED awk to handle CRLF and whitespace ---
+          PLAN=$(echo "$BODY" | awk '
+            {
+              sub(/\r$/, "")
+            }
+            /^[[: space:]]*```[[:space:]]*execution-plan/ {
+              in_block=1
+              next
+            }
+            /^[[:space:]]*```/ && in_block {
+              in_block=0
+            }
+            in_block {print}
+          ')
+
+          if [ -z "$PLAN" ]; then
+            echo "❌ execution-plan block not found or empty"
+            exit 1
+          fi
+
+          echo "✅ execution-plan block extracted"
+
+          echo "🧠 Parsing epic → feature mapping..."
+
+          MAP=$(echo "$PLAN" | awk '
+            /^Epic:/ {
+              epic=substr($0,7)
+              if (epic=="") exit 1
+              next
+            }
+            /^  - / {
+              if (epic=="") exit 1
+              print epic "|" substr($0,5)
+            }
+          ')
+
+          if [ -z "$MAP" ]; then
+            echo "❌ No epic/feature mappings found in execution-plan"
+            exit 1
+          fi
+
+          echo "✅ Parsed execution map:"
+          echo "$MAP"
+
+          echo "map<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$MAP" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+
+
+
+  # ------------------------------------------------------------
+  # JOB 2 — Create Epic 🏔️ Issues + Rename Epic Docs
+  # ------------------------------------------------------------
+  epics:
+    runs-on: ubuntu-latest
+    needs: plan
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Materialize epics
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config user.name "automation"
+          git config user.email "automation@users.noreply.github.com"
+
+          for FILE in docs/epics/*.md; do
+            TITLE=$(sed -n 's/^# Epic: //p' "$FILE")
