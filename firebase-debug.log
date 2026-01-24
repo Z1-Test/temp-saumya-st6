@@ -3,3 +3,9 @@
 [debug] [2026-01-24T14:46:54.995Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
 [debug] [2026-01-24T14:47:16.923Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
 [debug] [2026-01-24T14:47:16.924Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-01-24T14:47:26.903Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-01-24T14:47:26.904Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-01-24T14:47:26.908Z] >>> [apiv2][query] POST https://auth.firebase.tools/attest [none]
+[debug] [2026-01-24T14:47:26.908Z] >>> [apiv2][body] POST https://auth.firebase.tools/attest {"session_id":"a7f82a79-aeac-4587-b427-c86d9577be77"}
+[debug] [2026-01-24T14:47:27.357Z] <<< [apiv2][status] POST https://auth.firebase.tools/attest 200
+[debug] [2026-01-24T14:47:27.357Z] <<< [apiv2][body] POST https://auth.firebase.tools/attest {"token":"tOLuVTc_mwha9-cAVyL9uYgyx_GTbjYhEeqydqLgS3w"}
