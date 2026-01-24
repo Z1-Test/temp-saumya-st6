@@ -1,0 +1,22 @@
+name: Copilot Setup Simple
+# This workflow provides the minimal setup for GitHub Copilot Coding Agent
+on:
+  workflow_dispatch:
+jobs:
+  # The job MUST be called `copilot-setup-steps` or it will not be picked up by Copilot
+  copilot-setup-steps:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: "22"
+          cache: "npm"
+      - name: Install Firebase CLI
+        run: npm install -g firebase-tools
+      - name: Verify Firebase CLI installation
+        run: |
+          firebase --version
+          echo "✓ Firebase CLI installed successfully"
