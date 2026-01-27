@@ -9,15 +9,29 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
+
+      - name: Print env var and secret keys after checkout
+        run: printenv | cut -d= -f1 | sort
+
       - name: Set up Node.js
         uses: actions/setup-node@v6
         with:
           node-version: "22"
           cache: "npm"
 
+      - name: Print env var and secret keys after setup-node
+        run: printenv | cut -d= -f1 | sort
+
       - name: Install Firebase CLI
         run: npm install -g firebase-tools
+
+      - name: Print env var and secret keys after firebase install
+        run: printenv | cut -d= -f1 | sort
+
       - name: Verify Firebase CLI installation
         run: |
           firebase --version
           echo "✓ Firebase CLI installed successfully"
+
+      - name: Print env var and secret keys after verify
+        run: printenv | cut -d= -f1 | sort
