@@ -75,8 +75,9 @@ else
     echo ""
     echo -e "${RED}✗ Data seeding failed${NC}"
     echo ""
-    # Stop emulator on failure
-    kill $EMULATOR_PID
+    # Stop emulator gracefully on failure to trigger export
+    kill -INT $EMULATOR_PID
+    wait $EMULATOR_PID 2>/dev/null || true
     exit 1
 fi
 

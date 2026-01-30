@@ -5,10 +5,12 @@ This document demonstrates the complete workflow for seeding data into Firebase 
 ## 📋 What Has Been Set Up
 
 ### 1. Sample Product Data (`products.csv`)
-A CSV file containing 4 sample products across different categories:
+A CSV file containing 4 sample products with a total of 12 product entries (including variants):
 - **Shine On All Day Long Lipstick** (2 variants: Beautiful Brown, Ruby Red)
-- **Dramatic Look Mascara** (1 variant: Jet Black)
+- **Dramatic Look Mascara** (1 variant: Jet Black)  
 - **Glow Boost Face Serum** (no color variants)
+
+The lipstick has 2 rows (variants), while mascara and serum each have 1 row, totaling 4 unique product IDs.
 
 ### 2. Import Script (`import-products-polars.ts`)
 - Fixed syntax error on line 962 (changed `localhost:8080` to `process.env.FIRESTORE_EMULATOR_HOST`)
@@ -66,7 +68,7 @@ Verifies that all components are properly configured:
 1. ✅ Checks prerequisites
 2. ✅ Starts emulator on port 8080
 3. ✅ Emulator UI available at http://localhost:4000
-4. ✅ Seeds 3 products from CSV
+4. ✅ Seeds 4 products (3 unique product IDs) from CSV
 5. ✅ Waits for user interaction
 6. ✅ Press Ctrl+C to stop and export to `./emulator-data/`
 
@@ -144,7 +146,7 @@ Run the verification script to ensure everything is set up correctly:
   ✓ firebase-admin installed
   ✓ nodejs-polars installed
   
-✓ CSV has 12 product entries
+✓ CSV has 4 product entries (3 unique product IDs)
 ✓ Firestore emulator configured on port 8080
 
 All components verified successfully!
@@ -223,7 +225,7 @@ npm run seed:dry-run
 ```
 Reading CSV from: /path/to/products.csv
 Using column mapping configuration with 21 fields
-Parsed 3 products from CSV...
+Parsed 3 products from CSV...  # 3 unique product IDs
 
 --- Product 1 (ID: k22NuLsdpgSdZXBq5utI) ---
 {

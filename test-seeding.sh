@@ -6,9 +6,17 @@ set -e
 echo "=== Starting Firebase Emulator with Export on Exit ==="
 echo ""
 
-# Kill any existing emulator processes
-pkill -f "firebase emulators:start" 2>/dev/null || true
-sleep 2
+# Clean up function to stop emulator by PID
+cleanup() {
+    if [ ! -z "$EMULATOR_PID" ] && kill -0 $EMULATOR_PID 2>/dev/null; then
+        echo "Stopping emulator..."
+        kill -INT $EMULATOR_PID 2>/dev/null || true
+        wait $EMULATOR_PID 2>/dev/null || true
+    fi
+}
+
+# Set trap to cleanup on exit
+trap cleanup EXIT
 
 # Start emulator in background with export-on-exit
 echo "Starting emulator (will export to ./emulator-data on exit)..."
