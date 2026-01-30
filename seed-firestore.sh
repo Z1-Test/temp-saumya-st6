@@ -17,8 +17,10 @@ echo ""
 
 # Check if Firebase CLI is installed
 if ! command -v firebase &> /dev/null; then
-    echo -e "${YELLOW}Firebase CLI not found. Installing...${NC}"
-    npm install -g firebase-tools
+    echo -e "${YELLOW}Firebase CLI not found. Will use npx instead...${NC}"
+    FIREBASE_CMD="npx firebase-tools"
+else
+    FIREBASE_CMD="firebase"
 fi
 
 # Check if dependencies are installed
@@ -39,7 +41,7 @@ echo -e "${YELLOW}Export directory: ${EXPORT_DIR}${NC}"
 echo ""
 
 # Start emulator in background
-firebase emulators:start --only firestore --export-on-exit="${EXPORT_DIR}" &
+$FIREBASE_CMD emulators:start --only firestore --export-on-exit="${EXPORT_DIR}" &
 EMULATOR_PID=$!
 
 echo -e "${GREEN}✓ Emulator started (PID: ${EMULATOR_PID})${NC}"
