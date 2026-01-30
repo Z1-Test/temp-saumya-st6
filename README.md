@@ -12,7 +12,7 @@ A modern ecommerce platform for premium beauty products built with Firebase and 
 
 ## Tech Stack
 
-**Frontend:** Lit, Preact Signals, Firebase App Hosting  
-**Backend:** Node.js, TypeScript, Firebase Cloud Functions  
-**Database:** Cloud Firestore  
+**Frontend:** Lit, Preact Signals, Firebase App Hosting
+**Backend:** Node.js, TypeScript, Firebase Cloud Functions
+**Database:** Cloud Firestore
 **API:** GraphQL (Mesh + graphql-yoga)
