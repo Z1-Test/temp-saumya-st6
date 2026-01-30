@@ -8,9 +8,23 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: copilot
+    
+    # EXPLICITLY MAP SECRETS TO ENVIRONMENT VARIABLES
+    env:
+      COPILOT_MCP_FIREBASE_PROJECT_ID: ${{ secrets.COPILOT_MCP_FIREBASE_PROJECT_ID }}
+      COPILOT_MCP_WIF_PROVIDER: ${{ secrets.COPILOT_MCP_WIF_PROVIDER }}
+      COPILOT_MCP_WIF_SERVICE_ACCOUNT: ${{ secrets.COPILOT_MCP_WIF_SERVICE_ACCOUNT }}
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
+
+      # Persist these to the final Copilot Agent session
+      - name: Export Secrets to Agent Environment
+        run: |
+          echo "COPILOT_MCP_FIREBASE_PROJECT_ID=${{ secrets.COPILOT_MCP_FIREBASE_PROJECT_ID }}" >> $GITHUB_ENV
+          echo "COPILOT_MCP_WIF_PROVIDER=${{ secrets.COPILOT_MCP_WIF_PROVIDER }}" >> $GITHUB_ENV
+          echo "COPILOT_MCP_WIF_SERVICE_ACCOUNT=${{ secrets.COPILOT_MCP_WIF_SERVICE_ACCOUNT }}" >> $GITHUB_ENV
 
       - name: Print env var and secret keys after checkout
         run: printenv | cut -d= -f1 | sort
