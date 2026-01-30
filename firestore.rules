@@ -1,0 +1,145 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function ownsResourceBy(field) {
+      return isSignedIn() && resource.data[field] == request.auth.uid;
+    }
+
+    function ownsNewDocBy(field) {
+      return isSignedIn() && request.resource.data[field] == request.auth.uid;
+    }
+
+    function ownsOrder(orderId) {
+      return isSignedIn() &&
+        get(/databases/$(database)/documents/orders/$(orderId)).data.userId == request.auth.uid;
+    }
+
+    // Public catalog data.
+    match /products/{productId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // User profile/account data.
+    match /users/{userId} {
+      allow read: if isOwner(userId);
+      allow write: if false;
+    }
+
+    match /readModels/iam/userProfileSummaries/{userId} {
+      allow read: if isOwner(userId);
+      allow write: if false;
+    }
+
+    match /readModels/iam/userDetails/{userId} {
+      allow read: if isOwner(userId);
+      allow write: if false;
+    }
+
+    // Addresses (aggregate + read models).
+    match /addresses/{addressId} {
+      allow read: if ownsResourceBy("userId");
+      allow write: if ownsNewDocBy("userId");
+    }
+
+    match /user-addresses/{userId}/addresses/{addressId} {
+      allow read: if isOwner(userId);
+      allow write: if false;
+    }
+
+    match /readModels/addresses/addressSummaries/{addressId} {
+      allow read: if ownsResourceBy("userId");
+      allow write: if false;
+    }
+
+    match /readModels/addresses/userAddresses/{userId}/addresses/{addressId} {
+      allow read: if isOwner(userId);
+      allow write: if false;
+    }
+
+    // Cart (user-owned).
+    match /aggregates/cart/carts/{cartId} {
+      allow read: if ownsResourceBy("ownerId");
+      allow write: if ownsNewDocBy("ownerId");
+    }
+
+    match /readModels/cart/cartSummaries/{cartId} {
+      allow read: if ownsResourceBy("ownerId");
+      allow write: if false;
+    }
+
+    // Orders + dependent data.
+    match /orders/{orderId} {
+      allow read: if ownsResourceBy("userId");
+      allow write: if ownsNewDocBy("userId");
+    }
+
+    match /payments/{paymentId} {
+      allow read: if resource.data.orderId != null && ownsOrder(resource.data.orderId);
+      allow write: if false;
+    }
+
+    match /shipments/{shipmentId} {
+      allow read: if resource.data.orderId != null && ownsOrder(resource.data.orderId);
+      allow write: if false;
+    }
+
+    match /shipment_read_models/{shipmentId} {
+      allow read: if resource.data.orderId != null && ownsOrder(resource.data.orderId);
+      allow write: if false;
+    }
+
+    match /readModels/shipments/{shipmentId} {
+      allow read: if resource.data.orderId != null && ownsOrder(resource.data.orderId);
+      allow write: if false;
+    }
+
+    // Internal event collections (server only).
+    match /events/{eventId} {
+      allow read, write: if false;
+    }
+
+    match /user_events/{eventId} {
+      allow read, write: if false;
+    }
+
+    match /user_snapshots/{userId} {
+      allow read, write: if false;
+    }
+
+    match /user_email_index/{email} {
+      allow read, write: if false;
+    }
+
+    match /address-events/{addressId}/events/{eventId} {
+      allow read, write: if false;
+    }
+
+    match /shipment_events/{eventId} {
+      allow read, write: if false;
+    }
+
+    // Favorites (user-owned aggregate structure).
+    match /aggregates/favorites/users/{userId}/items/{productId} {
+      allow read: if isOwner(userId);
+      allow write: if false;
+    }
+
+    match /favorite-events/{favoriteId}/events/{eventId} {
+      allow read, write: if false;
+    }
+
+    // Default deny.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
