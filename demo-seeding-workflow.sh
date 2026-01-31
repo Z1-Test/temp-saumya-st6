@@ -1,0 +1,130 @@
+#!/bin/bash
+
+# Demo script to show the seeding process (without actual emulator)
+# This demonstrates the workflow when network restrictions prevent emulator download
+
+set -e
+
+echo "=============================================="
+echo "Firestore Data Seeding Demo"
+echo "=============================================="
+echo ""
+echo "This demo shows the workflow for seeding data"
+echo "into Firebase Firestore using the emulator."
+echo ""
+
+# Step 1: Show the setup
+echo "Step 1: Setup"
+echo "=============================================="
+echo "✓ Dependencies installed:"
+echo "  - firebase-admin (Firestore SDK)"
+echo "  - firebase-tools (Emulator)"
+echo "  - nodejs-polars (CSV processing)"
+echo "  - commander (CLI parsing)"
+echo ""
+echo "✓ Configuration files:"
+echo "  - firebase.json (emulator port: 8080)"
+echo "  - sample-products.csv (3 test products)"
+echo ""
+
+# Step 2: Show what the emulator command would be
+echo "Step 2: Start Emulator"
+echo "=============================================="
+echo "Command: npx firebase emulators:start \\"
+echo "           --only firestore \\"
+echo "           --import=./emulator-data \\"
+echo "           --export-on-exit=./emulator-data"
+echo ""
+echo "This would:"
+echo "  ✓ Start Firestore emulator on port 8080"
+echo "  ✓ Import existing data from ./emulator-data"
+echo "  ✓ Configure export on shutdown"
+echo ""
+
+# Step 3: Show the import command
+echo "Step 3: Import Products"
+echo "=============================================="
+echo "Command: FIRESTORE_EMULATOR_HOST=localhost:8080 \\"
+echo "           node --experimental-strip-types \\"
+echo "           import-products-polars.ts \\"
+echo "           --csv sample-products.csv"
+echo ""
+
+# Show what the script would do
+echo "Script workflow:"
+echo "  1. Read CSV file with Polars"
+echo "  2. Validate required columns (Product ID, Category, Product name)"
+echo "  3. Group products by Product ID"
+echo "  4. Transform to Firestore document format"
+echo "  5. Create batch operations"
+echo "  6. Commit to Firestore"
+echo ""
+
+# Show sample data
+echo "Sample products from CSV:"
+echo "  - test-product-001: Shine On All Day Long Lipstick (2 variants)"
+echo "  - test-product-002: Hydrating Face Cream (1 variant)"
+echo ""
+
+# Step 4: Show verification
+echo "Step 4: Verify Data"
+echo "=============================================="
+echo "Options to verify:"
+echo "  1. Firestore Emulator UI: http://localhost:4000"
+echo "  2. Firebase CLI: firebase firestore:get products/test-product-001"
+echo "  3. Custom verification script"
+echo ""
+
+# Step 5: Show export process
+echo "Step 5: Stop Emulator (Triggers Export)"
+echo "=============================================="
+echo "When stopping the emulator (Ctrl+C), it would:"
+echo "  1. Receive shutdown signal (SIGINT)"
+echo "  2. Export Firestore data to ./emulator-data"
+echo "  3. Create firestore_export/ directory"
+echo "  4. Save metadata and data files"
+echo ""
+
+# Show expected directory structure
+echo "Expected directory structure after export:"
+echo "  emulator-data/"
+echo "  ├── firestore_export/"
+echo "  │   ├── firestore_export.overall_export_metadata"
+echo "  │   ├── all_namespaces/"
+echo "  │   │   ├── all_kinds/"
+echo "  │   │   │   ├── output-0"
+echo "  │   │   │   └── output-1"
+echo "  │   │   └── all_kinds.export_metadata"
+echo "  │   └── ..."
+echo "  └── firebase-export-metadata.json"
+echo ""
+
+# Summary
+echo "=============================================="
+echo "Summary"
+echo "=============================================="
+echo ""
+echo "The complete workflow:"
+echo "  1. ✓ Install dependencies (npm install)"
+echo "  2. ✓ Prepare sample CSV data"
+echo "  3. → Start emulator with --export-on-exit flag"
+echo "  4. → Import products using import-products-polars.ts"
+echo "  5. → Verify data in Firestore"
+echo "  6. → Stop emulator (triggers data export)"
+echo ""
+echo "Available commands:"
+echo "  npm run seed-firestore    - Automated full process"
+echo "  npm run emulator:start    - Start emulator only"
+echo "  npm run import-products   - Import products only"
+echo ""
+echo "Documentation:"
+echo "  - See SEEDING_GUIDE.md for detailed instructions"
+echo "  - See import-products-polars.md for script documentation"
+echo ""
+echo "Note: In environments with network restrictions,"
+echo "the emulator JAR download may be blocked. In such"
+echo "cases, use this demo to understand the workflow."
+echo ""
+echo "=============================================="
+echo "Demo completed!"
+echo "=============================================="

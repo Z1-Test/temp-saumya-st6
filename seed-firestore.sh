@@ -23,7 +23,7 @@ mkdir -p "$EXPORT_DIR"
 # Start Firebase emulator in the background with export-on-exit
 echo "Starting Firebase Firestore emulator on port $EMULATOR_PORT..."
 echo "Export directory: $EXPORT_DIR"
-firebase emulators:start --only firestore --import="$EXPORT_DIR" --export-on-exit="$EXPORT_DIR" &
+npx firebase emulators:start --only firestore --import="$EXPORT_DIR" --export-on-exit="$EXPORT_DIR" &
 
 EMULATOR_PID=$!
 echo "Emulator started with PID: $EMULATOR_PID"

@@ -5,9 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "emulator:start": "firebase emulators:start --only firestore --import=./emulator-data --export-on-exit=./emulator-data",
+    "emulator:start": "npx firebase emulators:start --only firestore --import=./emulator-data --export-on-exit=./emulator-data",
     "import-products": "FIRESTORE_EMULATOR_HOST=localhost:8080 node --experimental-strip-types import-products-polars.ts --csv sample-products.csv",
-    "seed-firestore": "./seed-firestore.sh"
+    "seed-firestore": "./seed-firestore.sh",
+    "demo": "./demo-seeding-workflow.sh"
   },
   "repository": {
     "type": "git",
