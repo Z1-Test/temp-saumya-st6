@@ -1,0 +1,21 @@
+{
+  "name": "firestore-seed-demo",
+  "version": "1.0.0",
+  "description": "Firebase Firestore data seeding demo",
+  "type": "module",
+  "scripts": {
+    "emulator:start": "firebase emulators:start --only firestore --export-on-exit=./emulator-data",
+    "seed:data": "FIRESTORE_EMULATOR_HOST=localhost:8080 node --experimental-strip-types import-products-polars.ts --csv products.csv",
+    "seed:dry-run": "FIRESTORE_EMULATOR_HOST=localhost:8080 node --experimental-strip-types import-products-polars.ts --csv products.csv --dry-run",
+    "emulator:seed": "npm run emulator:start"
+  },
+  "dependencies": {
+    "firebase-admin": "^12.0.0",
+    "nodejs-polars": "^0.18.0",
+    "commander": "^12.0.0",
+    "csv-parser": "^3.0.0"
+  },
+  "devDependencies": {
+    "firebase-tools": "^13.0.0"
+  }
+}
