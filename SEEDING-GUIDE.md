@@ -33,6 +33,16 @@ This will install:
 
 ## Usage
 
+### Demo Workflow
+
+To see a demonstration of what the seeding process does without actually running the emulator:
+
+```bash
+npm run demo
+```
+
+This will show you the complete workflow step-by-step, including what commands are run and what output you can expect.
+
 ### Quick Start
 
 Run the complete seeding process with the provided sample data:
@@ -221,6 +231,7 @@ See `import-products-polars.md` for complete format requirements.
 
 ## NPM Scripts Reference
 
+- `npm run demo` - Show demonstration of the seeding workflow (doesn't require emulator)
 - `npm run emulators:start` - Start emulator (no export on exit)
 - `npm run emulators:export` - Start emulator with export on exit
 - `npm run seed:data` - Complete automated seeding process

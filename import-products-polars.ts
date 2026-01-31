@@ -959,7 +959,7 @@ FIRESTORE TARGET:
   const databaseId = String(databaseIdRaw).trim() || undefined;
   const db = databaseId ? getFirestore(admin.app(), databaseId) : getFirestore(admin.app());
   const settings: any = { ignoreUndefinedProperties: true };
-  const useEmulator = localhost:8080;
+  const useEmulator = process.env.FIRESTORE_EMULATOR_HOST;
   if (useEmulator) {
     settings.host = process.env.FIRESTORE_EMULATOR_HOST;
     settings.ssl = false;

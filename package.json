@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "description": "Firebase Firestore data seeding with import-products-polars",
   "scripts": {
-    "emulators:start": "firebase emulators:start",
-    "emulators:export": "firebase emulators:start --export-on-exit=./firestore-data",
-    "seed:data": "node seed-firestore-data.js"
+    "emulators:start": "npx firebase emulators:start",
+    "emulators:export": "npx firebase emulators:start --export-on-exit=./firestore-data",
+    "seed:data": "node seed-firestore-data.js",
+    "demo": "node demo-seeding-workflow.js"
   },
   "dependencies": {
     "firebase-admin": "^12.0.0",

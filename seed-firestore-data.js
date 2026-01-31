@@ -127,7 +127,8 @@ async function main() {
     log('1️⃣  Starting Firebase emulator with --export-on-exit flag...', colors.yellow);
     log(`   Export directory: ${EXPORT_DIR}`, colors.cyan);
     
-    emulatorProcess = spawn('firebase', [
+    emulatorProcess = spawn('npx', [
+      'firebase',
       'emulators:start',
       '--only',
       'firestore',
