@@ -115,7 +115,7 @@ echo "Stopping emulator (triggering export)..."
 echo "======================================"
 
 # Stop the emulator gracefully to trigger export
-kill -SIGINT $EMULATOR_PID 2>/dev/null || true
+kill -INT $EMULATOR_PID 2>/dev/null || true
 
 # Wait for emulator to shutdown and export
 sleep 5
