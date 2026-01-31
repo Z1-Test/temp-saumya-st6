@@ -35,6 +35,12 @@ jobs:
           node-version: "22"
           cache: "npm"
 
+      - name: Set up Java runtime tools
+        uses: actions/setup-java@v5
+        with:
+          distribution: "temurin"
+          java-version: "25"
+
       - name: Print env var and secret keys after setup-node
         run: printenv | cut -d= -f1 | sort
 
