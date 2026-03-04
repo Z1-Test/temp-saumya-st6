@@ -1,4 +1,4 @@
-name:  Sync Docs to Issues
+name: Sync Docs to Issues
 
 on:
   push:
@@ -15,19 +15,18 @@ concurrency:
   group: sync-docs-to-issues
   cancel-in-progress: false
 
-jobs: 
-
+jobs:
   # ------------------------------------------------------------
   # JOB 1 — Parse Instruction 🤖 Issue (Execution Plan)
   # ------------------------------------------------------------
   plan:
     name: Parse Authoritative Execution Plan
-    runs-on: ubuntu-latest
+    runs-on: st-arc
     outputs:
       epic_feature_map: ${{ steps.parse. outputs.map }}
 
     steps:
-      - uses:  actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Parse Instruction 🤖 issue (execution-plan)
         id: parse
@@ -129,13 +128,11 @@ jobs:
           echo "$MAP" >> "$GITHUB_OUTPUT"
           echo "EOF" >> "$GITHUB_OUTPUT"
 
-
-
   # ------------------------------------------------------------
   # JOB 2 — Create Epic 🏔️ Issues + Rename Epic Docs
   # ------------------------------------------------------------
   epics:
-    runs-on: ubuntu-latest
+    runs-on: st-arc
     needs: plan
 
     steps:
