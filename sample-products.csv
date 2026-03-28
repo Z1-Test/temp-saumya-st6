@@ -1,0 +1,13 @@
+No,Category,Product name,Product ID,Product code,SKU,Shade name,Shade code,Hex code,Price (₹),Stock,Quantity,Tagline,Short description,Description,Key benefits,Ingredients,How to Use,Caution,Shipping and Delivery,Product link
+1,lips,Premium Matte Lipstick,test-prod-001,LIP001,LIP001-RED01,Classic Red,01,#FF0000,599,100,3.5 gms,Beautiful Lips All Day,"Long-lasting matte lipstick","This premium matte lipstick provides vibrant color that lasts all day. Enriched with natural ingredients for smooth application.","Long-lasting wear
+Vibrant colors
+Smooth application
+Moisturizing formula","Beeswax, Shea Butter, Vitamin E, Natural Oils","Apply directly to clean, dry lips. Start from the center and move outward.","For external use only. Discontinue if irritation occurs.","Fast shipping within 3-5 business days","https://example.com/lipstick"
+2,lips,Premium Matte Lipstick,test-prod-001,LIP001,LIP001-PINK02,Pretty Pink,02,#FFC0CB,599,150,3.5 gms,Beautiful Lips All Day,"Long-lasting matte lipstick","This premium matte lipstick provides vibrant color that lasts all day. Enriched with natural ingredients for smooth application.","Long-lasting wear
+Vibrant colors
+Smooth application
+Moisturizing formula","Beeswax, Shea Butter, Vitamin E, Natural Oils","Apply directly to clean, dry lips. Start from the center and move outward.","For external use only. Discontinue if irritation occurs.","Fast shipping within 3-5 business days","https://example.com/lipstick"
+3,skin,Hydrating Face Cream,test-prod-002,SKIN001,SKIN001-50ML,,,#FFFFFF,899,200,50 ml,Hydrate & Glow,"Intensive hydrating cream","Our hydrating face cream is formulated with natural ingredients to deeply moisturize and nourish your skin. Perfect for daily use.","Deep hydration
+Natural ingredients
+Non-greasy formula
+Suitable for all skin types","Hyaluronic Acid, Aloe Vera, Vitamin C, Glycerin","Apply a small amount to clean face and neck. Massage gently in circular motions.","Avoid contact with eyes. Store in a cool, dry place.","Free shipping on orders over ₹500","https://example.com/face-cream"
